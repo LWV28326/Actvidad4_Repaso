@@ -3,6 +3,8 @@ package fp.dam.actvidad4_repaso;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
@@ -61,4 +63,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         fecha.setText(String.format("%04d/%02d/%02d",year, month, dayOfMonth)); //Cadenas de formato --- format string -- buscar info
     }
+
+
 }
