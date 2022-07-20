@@ -8,8 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import java.util.Calendar;
 
@@ -18,9 +20,21 @@ import java.util.Calendar;
 // Unidad 2, 3, 4, 5, 6, 7 (VIP), 11
 // Unidad 8 nada -- no incluido en el examen, 9 y 10 (tampoco) y 12
 
+//------------------------------------------------------------------------------
+
+//Quedaría abrir otra activitiy con los datos de la tarjeta de crédito
+//se validen adecuadamente
+//Al guardar se tendrá en cuenta si se han metido datos de la tarjeta de cédito
+// Admitir valor null sino se introducen datos de la tarjeta
+
+//------------------------------------------------------------------------------
+
+//Hay en la carpeta recursos cosas para la validacion del nif
+
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener { //interface implemetnar para responder al evento de sellecionar fecha
 
     private EditText fecha;
+    private MiSQLiteOpenHelper db= new MiSQLiteOpenHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +70,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void guardar(){
-
+        boolean mujer= ((RadioButton)findViewById(R.id.radioButton1)).isSelected();
+        db.guardar(
+                ((EditText) findViewById(R.id.editTextNIF)).getText().toString(),
+                ((EditText) findViewById(R.id.editTextNombre)).getText().toString(),
+                ((EditText) findViewById(R.id.editTextFecha)).getText().toString(),
+                ((CheckBox) findViewById(R.id.checkBox)).isChecked(),
+                mujer ? "mujer" : "hombre"
+        );
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+
+
 public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
 
 
@@ -22,8 +24,6 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
                 "estudiante char(1),"+
                 "sexo char(6)"+
                 ")");
-
-
     }
 
     @Override
@@ -32,8 +32,13 @@ public class MiSQLiteOpenHelper extends SQLiteOpenHelper {
     }
 
     public void guardar (String nombre, String nif, String fecha, boolean estudiante, String sexo){
-        String sentencia = "insert into clientes values( ?, ?, ?, ?, ?)";
-       SQLiteDatabase db= getWritableDatabase();
-       db.rawQuery(sentencia,); //Me perrmite introduir parametros en la consulta
+        String sentencia = "insert into clientes values("+
+                "'"+nif+"',"+
+                "'"+nombre+"',"+
+                "'"+fecha+"',"+
+                "'"+(estudiante ? 's':'n')+"',"+
+                "'" +sexo+"')";
+        SQLiteDatabase db= getWritableDatabase();
+        db.execSQL(sentencia);
     }
 }
