@@ -31,16 +31,29 @@ import java.util.Calendar;
 
 //Hay en la carpeta recursos cosas para la validacion del nif
 
+//-------------------------------------------------------------------
+
+//Mirar cico vida aplicacion
+
+
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener { //interface implemetnar para responder al evento de sellecionar fecha
 
     private EditText fecha;
-    private MiSQLiteOpenHelper db= new MiSQLiteOpenHelper(this);
+    private MiSQLiteOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //db= new MiSQLiteOpenHelper(this);
+        db= MiSQLiteOpenHelper.getInstance(this,3);
         (fecha=findViewById(R.id.editTextFecha)).setOnClickListener(this::onClick);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close(); //CERRAR BASE DE DATOS
     }
 
     public void onClick (View v){
@@ -59,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
+
+
     private void obtenerFecha(){
         Calendar c = Calendar.getInstance(); // Obtenemos la fecha actual, no se instancia
         DatePickerDialog dialog = new DatePickerDialog(this, this,c.get(Calendar.YEAR), c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
@@ -70,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void guardar(){
+        //Abrir la base de datos aquí
         boolean mujer= ((RadioButton)findViewById(R.id.radioButton1)).isSelected();
         db.guardar(
                 ((EditText) findViewById(R.id.editTextNIF)).getText().toString(),
@@ -78,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                 ((CheckBox) findViewById(R.id.checkBox)).isChecked(),
                 mujer ? "mujer" : "hombre"
         );
+        //Puedo cerrarla aquí
     }
 
     @Override
